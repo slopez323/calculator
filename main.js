@@ -21,7 +21,7 @@ let num = '';
 let num1 = 0;
 let num2 = 0;
 let operator = '';
-const digitButtons = ['digit0', 'digit1', 'digit2', 'digit3', 'digit4', 'digit5', 'digit6', 'digit7', 'digit8', 'digit9'];
+const digitButtons = ['digit0', 'digit1', 'digit2', 'digit3', 'digit4', 'digit5', 'digit6', 'digit7', 'digit8', 'digit9', 'dot'];
 const operatorButtons = ['add', 'subtract', 'multiply', 'divide'];
 
 function run(e) {
@@ -33,7 +33,11 @@ function run(e) {
         num2 = 0;
         operator = '';
     } else if (digitButtons.includes(btn)) {
+        if (btn === 'dot'){
+            num += '.';
+        } else {
         num += btn[btn.length - 1];
+        }
         display.textContent = num;
     } else if (operatorButtons.includes(btn)) {
         if (operator === '') {
