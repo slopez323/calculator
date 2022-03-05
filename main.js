@@ -20,6 +20,7 @@ calc.addEventListener('click', transition);
 calc.addEventListener('click', adjustFont);
 const display = document.getElementById('display');
 const displayText = document.getElementById('displayText');
+const origFontSize = window.getComputedStyle(displayText, null).getPropertyValue('font-size');
 let num = '';
 let num1 = 0;
 let num2 = 0;
@@ -38,7 +39,7 @@ function run(e) {
         operator = '';
         displayText.style.fontSize = '';
     } else if (btn === 'back') {
-        num = num.substring(0,num.length-1);
+        num = num.substring(0, num.length - 1);
         if (num === '') {
             displayText.textContent = '0';
         } else displayText.textContent = num;
@@ -58,7 +59,7 @@ function run(e) {
             } else num1 = 0;
             operator = btn;
             num = '';
-        } else if(operator !== '' && continueCalc === true){
+        } else if (operator !== '' && continueCalc === true) {
             operator = btn;
             num = '';
             continueCalc = false;
@@ -98,8 +99,15 @@ function transition(e) {
 }
 
 function adjustFont() {
-    while (displayText.clientWidth > display.clientWidth - 40) {
-        let currentFontSize = window.getComputedStyle(displayText,null).getPropertyValue('font-size');
-        displayText.style.fontSize = (parseInt(currentFontSize) - 1) + 'px';
+    if (displayText.clientWidth > display.clientWidth - 40) {
+        while (displayText.clientWidth > display.clientWidth - 40) {
+            let currentFontSize = window.getComputedStyle(displayText, null).getPropertyValue('font-size');
+            displayText.style.fontSize = (parseInt(currentFontSize) - 1) + 'px';
+        }
+    } else if (displayText.style.fontSize !== '' && displayText.clientWidth < display.clientWidth - 40) {
+        while (displayText.style.fontSize < origFontSize && displayText.clientWidth < display.clientWidth - 40){
+            let currentFontSize = window.getComputedStyle(displayText, null).getPropertyValue('font-size');
+            displayText.style.fontSize = (parseInt(currentFontSize) + 1) + 'px';
+        }
     }
 }

@@ -25,6 +25,7 @@ body{
 .button{
     border: solid #515054 0.5px;
     font-size: 2em;
+    user-select: none;
 
     display: flex;
     align-items: center;
