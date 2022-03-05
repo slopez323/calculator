@@ -29,6 +29,8 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+
+    transition: all .05s ease;
 }
 
 #display{

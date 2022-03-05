@@ -16,6 +16,7 @@ const operate = (operator, num1, num2) => {
 
 const calc = document.querySelector('.calculator');
 calc.addEventListener('click', run);
+calc.addEventListener('click', transition);
 const display = document.getElementById('display');
 let num = '';
 let num1 = 0;
@@ -70,3 +71,12 @@ function run(e) {
         }
     }
 }
+
+function transition(e){
+    let clicked = document.getElementById(e.target.id);
+    clicked.style.opacity = '0.5'
+    clicked.addEventListener('transitionend', function(){
+        clicked.style.opacity = '1'
+    })
+}
+
