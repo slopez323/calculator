@@ -17,7 +17,9 @@ const operate = (operator, num1, num2) => {
 const calc = document.querySelector('.calculator');
 calc.addEventListener('click', run);
 calc.addEventListener('click', transition);
+calc.addEventListener('click', adjustFont);
 const display = document.getElementById('display');
+const displayText = document.getElementById('displayText');
 let num = '';
 let num1 = 0;
 let num2 = 0;
@@ -28,18 +30,21 @@ const operatorButtons = ['add', 'subtract', 'multiply', 'divide'];
 function run(e) {
     let btn = e.target.id;
     if (btn === 'clear') {
-        display.textContent = '0';
+        displayText.textContent = '0';
         num = '';
         num1 = 0;
         num2 = 0;
         operator = '';
+        displayText.style.fontSize = '';
     } else if (digitButtons.includes(btn)) {
-        if (btn === 'dot'){
-            num += '.';
+        if (btn === 'dot') {
+            if (!num.includes('.')) {
+                num += '.';
+            }
         } else {
-        num += btn[btn.length - 1];
+            num += btn[btn.length - 1];
         }
-        display.textContent = num;
+        displayText.textContent = num;
     } else if (operatorButtons.includes(btn)) {
         if (operator === '') {
             if (num !== '') {
@@ -50,7 +55,7 @@ function run(e) {
         } else {
             num2 = +num;
             num = operate(operator, num1, num2);
-            display.textContent = num;
+            displayText.textContent = num;
             num1 = num;
             num = '';
             operator = btn;
@@ -60,23 +65,33 @@ function run(e) {
         } else if (num !== '') {
             num2 = +num;
             num = operate(operator, num1, num2);
-            display.textContent = num;
+            displayText.textContent = num;
             num1 = num;
             num = '';
         } else {
             num = operate(operator, num1, num2);
-            display.textContent = num;
+            displayText.textContent = num;
             num1 = num;
             num = '';
         }
     }
 }
 
-function transition(e){
+function transition(e) {
     let clicked = document.getElementById(e.target.id);
     clicked.style.opacity = '0.5'
-    clicked.addEventListener('transitionend', function(){
+    clicked.addEventListener('transitionend', function () {
         clicked.style.opacity = '1'
     })
 }
 
+function adjustFont() {
+    console.log(displayText.clientWidth)
+    console.log(display.clientWidth)
+
+    while (displayText.clientWidth > display.clientWidth - 40) {
+        let currentFontSize = window.getComputedStyle(displayText,null).getPropertyValue('font-size');
+        console.log(currentFontSize)
+        displayText.style.fontSize = (parseInt(currentFontSize) - 1) + 'px';
+    }
+}
