@@ -24,6 +24,7 @@ let num = '';
 let num1 = 0;
 let num2 = 0;
 let operator = '';
+let continueCalc = false;
 const digitButtons = ['digit0', 'digit1', 'digit2', 'digit3', 'digit4', 'digit5', 'digit6', 'digit7', 'digit8', 'digit9', 'dot'];
 const operatorButtons = ['add', 'subtract', 'multiply', 'divide'];
 
@@ -36,6 +37,11 @@ function run(e) {
         num2 = 0;
         operator = '';
         displayText.style.fontSize = '';
+    } else if (btn === 'back') {
+        num = num.substring(0,num.length-1);
+        if (num === '') {
+            displayText.textContent = '0';
+        } else displayText.textContent = num;
     } else if (digitButtons.includes(btn)) {
         if (btn === 'dot') {
             if (!num.includes('.')) {
@@ -52,6 +58,10 @@ function run(e) {
             } else num1 = 0;
             operator = btn;
             num = '';
+        } else if(operator !== '' && continueCalc === true){
+            operator = btn;
+            num = '';
+            continueCalc = false;
         } else {
             num2 = +num;
             num = operate(operator, num1, num2);
@@ -68,11 +78,13 @@ function run(e) {
             displayText.textContent = num;
             num1 = num;
             num = '';
+            continueCalc = true;
         } else {
             num = operate(operator, num1, num2);
             displayText.textContent = num;
             num1 = num;
             num = '';
+            continueCalc = true;
         }
     }
 }
@@ -86,12 +98,8 @@ function transition(e) {
 }
 
 function adjustFont() {
-    console.log(displayText.clientWidth)
-    console.log(display.clientWidth)
-
     while (displayText.clientWidth > display.clientWidth - 40) {
         let currentFontSize = window.getComputedStyle(displayText,null).getPropertyValue('font-size');
-        console.log(currentFontSize)
         displayText.style.fontSize = (parseInt(currentFontSize) - 1) + 'px';
     }
 }

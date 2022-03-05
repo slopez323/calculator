@@ -46,7 +46,13 @@ body{
 }
 
 #clear{
-    grid-column:1 / 4;
+    grid-column:1 / 3;
+    grid-row:3;
+    background-color: #626165;
+}
+
+#back{
+    grid-column:3;
     grid-row:3;
     background-color: #626165;
 }
